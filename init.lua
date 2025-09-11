@@ -141,6 +141,9 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+--Highlight parenthesis
+vim.opt.showmatch = true
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -723,7 +726,7 @@ require('lazy').setup({
         ensure_installed = {
           'lua_ls',
           'pyright',
-          'tsserver',
+          'ts_ls',
         }, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
         automatic_installation = false,
         handlers = {
@@ -760,7 +763,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, typescript = true, typescriptreact = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
