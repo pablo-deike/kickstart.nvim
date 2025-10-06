@@ -179,6 +179,24 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Invert delete and copy commands
+-- Make all delete operations go to the black-hole register
+vim.keymap.set({ 'n', 'x' }, 'd', '"_d', { noremap = true })
+vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, 'D', '"_D', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, 'c', '"_c', { noremap = true })
+vim.keymap.set('n', 'cc', '"_cc', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, 'C', '"_C', { noremap = true })
+
+-- Redefine "_ (black-hole) prefix as "delete & copy" instead
+-- i.e., "_d behaves like normal d
+vim.keymap.set({ 'n', 'x' }, '"_d', 'd', { noremap = true })
+vim.keymap.set('n', '"_dd', 'dd', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, '"_D', 'D', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, '"_c', 'c', { noremap = true })
+vim.keymap.set('n', '"_cc', 'cc', { noremap = true })
+vim.keymap.set({ 'n', 'x' }, '"_C', 'C', { noremap = true })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
