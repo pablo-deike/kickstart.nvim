@@ -143,7 +143,9 @@ vim.o.splitbelow = true
 
 --Highlight parenthesis
 vim.opt.showmatch = true
-
+-- Define the correct tab spacing for windows
+vim.opt['tabstop'] = 4
+vim.opt['shiftwidth'] = 4
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
