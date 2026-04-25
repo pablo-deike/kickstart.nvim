@@ -17,7 +17,7 @@ return {
       { '<leader>zd', ':CopilotChatDocs<CR>', mode = 'v', desc = 'Generate Documentation' },
       { '<leader>zt', ':CopilotChatTests<CR>', mode = 'v', desc = 'Generate Tests' },
       { '<leader>zm', ':CopilotChatCommit<CR>', mode = 'v', desc = 'Generate Commit Message' },
-      { '<leader>tp', ':CopilotToggle<CR>', mode = 'n', desc = 'Toggle Copilot' }, -- Add this line
+      { '<leader>tp', ':CopilotToggle<CR>', mode = 'n', desc = 'Toggle Copilot' },
     },
   },
 }
