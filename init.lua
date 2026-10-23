@@ -972,6 +972,33 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    -- Neovim 0.13 dropped the `all = false` option of `add_directive`/`add_predicate`,
+    -- so handlers now always get a list of nodes per capture. The archived master
+    -- branch still registers its handlers with `all = false` and treats the argument
+    -- as a single node, which breaks injections (e.g. fenced code blocks in markdown)
+    -- with "attempt to call method 'range' (a nil value)". Restore the old behaviour
+    -- for handlers that ask for it.
+    init = function()
+      local query = require 'vim.treesitter.query'
+      for _, name in ipairs { 'add_directive', 'add_predicate' } do
+        local add = query[name]
+        query[name] = function(handler_name, handler, opts)
+          if type(opts) == 'table' and opts.all == false then
+            local nodelist_handler = handler
+            handler = function(match, ...)
+              local single = {}
+              for id, nodes in pairs(match) do
+                -- On Neovim versions that still honour `all = false` these are already
+                -- single nodes (userdata), so leave them alone and stay a no-op there.
+                single[id] = type(nodes) == 'table' and nodes[#nodes] or nodes
+              end
+              return nodelist_handler(single, ...)
+            end
+          end
+          return add(handler_name, handler, opts)
+        end
+      end
+    end,
     -- tree-sitter CLI >= 0.26 removed the `--no-bindings` flag that the archived
     -- master branch still passes when generating parsers (e.g. latex), so drop it.
     config = function(_, opts)
